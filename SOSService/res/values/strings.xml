@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SOSService</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="btnStart">Запустить</string>
+    <string name="btnStop">Остановить</string>
+    <string name="title_activity_hot_call">HotCallActivity</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- Main activity -->
+    <string name="sos_state">Состояние сервиса:</string>
+    <string name="sos_start_time">Время активации:</string>
+    <string name="sos_start_time_tooltip">Выбрать время активации</string>
+    <string name="sos_start_time_default">23.30</string>
+    <string name="sos_stop_time">Время остановки:</string>
+    <string name="sos_stop_time_tooltip">Выбрать время остановки</string>
+    <string name="sos_stop_time_default">06.30</string>
+    <string name="sos_hot_call_number_1">Тел. номер 1:</string>
+    <string name="sos_hot_call_number_2">Тел. номер 2:</string>
+    <string name="sos_hot_call_number_tooltip">Выбрать номер телефона</string>
+    <string name="sos_hot_call_number_extantion">+375291234567</string>
+    <string name="sos_send_sms">Отправлять сообщение</string>
+    <string name="sos_sms_number">Тел. для СМС:</string>
+    <string name="sos_sms_text">Текст сообщения:</string>
+    <string name="sos_sms_text_default">Нужна помощь!</string>
+    <string name="sos_btn_start">Запустить</string>
+    <string name="sos_btn_stop">Остановить</string>
+    
+    
+    
+    <!-- Hot Call actitivy -->
+    <string name="btnHotCallCancel">Отмена</string>
+	
+    <!-- Phone types -->
+    <string name="home">д.</string>
+    <string name="mobile">моб.</string>
+    <string name="work">раб.</string>
+    
+</resources>
