@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     	SosSettings settings = null;    	
     	
     	//TODO only for test
-    	settings = new SosSettings(null,null,"T","23.00","06.00",0,0,0,"+375293771906","SOS!!!","+375293771906","103");
+    	settings = new SosSettings(null,null,"T","23.00","06.00",0,0,0,"+375293771906","SOS!!!","+375293771906","104");
     	//TODO only for test
     	
     	return settings;    	
