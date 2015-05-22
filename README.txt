@@ -1,1 +1,1 @@
-Android application "SOS service"
+Android application "SOS service" m1
