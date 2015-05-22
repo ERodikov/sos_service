@@ -1655,7 +1655,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f050030;
         public static final int action_mode_bar_stub=0x7f05002f;
         public static final int action_mode_close_button=0x7f050022;
-        public static final int action_settings=0x7f05004e;
+        public static final int action_settings=0x7f050053;
         public static final int activity_chooser_view_content=0x7f050023;
         public static final int always=0x7f05000d;
         public static final int beginning=0x7f050012;
@@ -1663,23 +1663,28 @@ containing a value of this type.
         public static final int btn_hot_call_1=0x7f050041;
         public static final int btn_hot_call_2=0x7f050042;
         public static final int btn_hot_call_cancel=0x7f050044;
-        public static final int cb_sos_send_sms=0x7f05004a;
+        public static final int btn_sos_hot_call_number_1=0x7f05004b;
+        public static final int btn_sos_hot_call_number_2=0x7f05004d;
+        public static final int btn_sos_sms_number=0x7f050050;
+        public static final int btn_sos_start_time=0x7f050047;
+        public static final int btn_sos_stop_time=0x7f050049;
+        public static final int cb_sos_send_sms=0x7f05004e;
         public static final int checkbox=0x7f05002b;
         public static final int collapseActionView=0x7f05000f;
         public static final int decor_content_parent=0x7f050031;
         public static final int default_activity_button=0x7f050026;
         public static final int dialog=0x7f050010;
-        public static final int dialog_row_name=0x7f05004d;
+        public static final int dialog_row_name=0x7f050052;
         public static final int disableHome=0x7f05000a;
         public static final int dropdown=0x7f050011;
         public static final int edit_query=0x7f050035;
         public static final int end=0x7f050014;
-        public static final int et_sos_hot_call_number_1=0x7f050048;
-        public static final int et_sos_hot_call_number_2=0x7f050049;
-        public static final int et_sos_sms_number=0x7f05004b;
-        public static final int et_sos_sms_text=0x7f05004c;
+        public static final int et_sos_hot_call_number_1=0x7f05004a;
+        public static final int et_sos_hot_call_number_2=0x7f05004c;
+        public static final int et_sos_sms_number=0x7f05004f;
+        public static final int et_sos_sms_text=0x7f050051;
         public static final int et_sos_start_time=0x7f050046;
-        public static final int et_sos_stop_time=0x7f050047;
+        public static final int et_sos_stop_time=0x7f050048;
         public static final int expand_activities_button=0x7f050024;
         public static final int expanded_menu=0x7f05002a;
         public static final int home=0x7f050017;
@@ -1838,14 +1843,14 @@ containing a value of this type.
         public static final int app_name=0x7f0a000f;
         /**  Hot Call actitivy 
          */
-        public static final int btnHotCallCancel=0x7f0a0026;
+        public static final int btnHotCallCancel=0x7f0a0027;
         public static final int btnStart=0x7f0a0011;
         public static final int btnStop=0x7f0a0012;
         public static final int hello_world=0x7f0a0014;
         /**  Phone types 
          */
-        public static final int home=0x7f0a0027;
-        public static final int mobile=0x7f0a0028;
+        public static final int home=0x7f0a0028;
+        public static final int mobile=0x7f0a0029;
         public static final int sos_btn_start=0x7f0a0024;
         public static final int sos_btn_stop=0x7f0a0025;
         public static final int sos_hot_call_number_1=0x7f0a001c;
@@ -1856,6 +1861,7 @@ containing a value of this type.
         public static final int sos_sms_number=0x7f0a0021;
         public static final int sos_sms_text=0x7f0a0022;
         public static final int sos_sms_text_default=0x7f0a0023;
+        public static final int sos_start_one_minute=0x7f0a0026;
         public static final int sos_start_time=0x7f0a0016;
         public static final int sos_start_time_default=0x7f0a0018;
         public static final int sos_start_time_tooltip=0x7f0a0017;
@@ -1866,7 +1872,7 @@ containing a value of this type.
         public static final int sos_stop_time_default=0x7f0a001b;
         public static final int sos_stop_time_tooltip=0x7f0a001a;
         public static final int title_activity_hot_call=0x7f0a0013;
-        public static final int work=0x7f0a0029;
+        public static final int work=0x7f0a002a;
     }
     public static final class style {
         /** 

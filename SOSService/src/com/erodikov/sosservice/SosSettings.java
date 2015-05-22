@@ -14,6 +14,8 @@ public class SosSettings {
 	private String hotNumber1;
 	private String hotNumber2;
 	
+	public SosSettings(){}
+	
 	public SosSettings(String id, String createdAt, String state, String tBegin, String tEnd, Integer lastX, Integer lastY, Integer lastZ, String smsNumber, String smsText, String hotNumber1, String hotNumber2){
 		this.id = id;
 		this.createdAt = createdAt;

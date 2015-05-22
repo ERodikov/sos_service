@@ -43,6 +43,7 @@
 			            android:text="@string/sos_start_time_default"
 						style="@style/SOSEditViewStyle"/>
 			       	<ImageButton 
+			       	    android:id="@+id/btn_sos_start_time"
 			       	    android:layout_width="wrap_content"
 			       	    android:layout_height="wrap_content"			       	    			       	    
 			       	    android:onClick="onTimePickerClick"
@@ -75,6 +76,7 @@
 	            		android:text="@string/sos_stop_time_default"
 	            		style="@style/SOSEditViewStyle"/>
 					<ImageButton 
+					    android:id="@+id/btn_sos_stop_time"
 				       	android:layout_width="wrap_content"
 				       	android:layout_height="wrap_content"
 				       	android:onClick="onTimePickerClick"
@@ -107,12 +109,13 @@
 			            android:text="@string/sos_hot_call_number_extantion"
 			            style="@style/SOSEditViewStyle"/>
 			       	<ImageButton 
+			       	    android:id="@+id/btn_sos_hot_call_number_1"
 			       	    android:layout_width="wrap_content"
 			       	    android:layout_height="wrap_content"
 			       	    style="@style/SOSImageBtnStyle"
 			       	    android:contentDescription="@string/sos_hot_call_number_tooltip"			       	    
 			       	    android:src="@drawable/contacts"
-			       	    android:onClick="onContactPickerClick"/>
+			       	    android:onClick="onIconClick"/>
 				</TableRow>
 			</TableLayout>
 	    </TableRow>
@@ -139,11 +142,13 @@
 			            android:text="@string/sos_hot_call_number_extantion"
 			            style="@style/SOSEditViewStyle"/>
 			       	<ImageButton 
+			       	    android:id="@+id/btn_sos_hot_call_number_2"
 			       	    android:layout_width="wrap_content"
 			       	    android:layout_height="wrap_content"
 			       	    style="@style/SOSImageBtnStyle"
 			       	    android:contentDescription="@string/sos_hot_call_number_tooltip"			       	    
-			       	    android:src="@drawable/contacts"/>
+			       	    android:src="@drawable/contacts"
+			       	    android:onClick="onIconClick"/>
 				</TableRow>
 			</TableLayout>
 	    </TableRow>
@@ -182,11 +187,13 @@
 			            android:text="@string/sos_hot_call_number_extantion"
 			            style="@style/SOSEditViewStyle"/>
 			       	<ImageButton 
+			       	    android:id="@+id/btn_sos_sms_number"
 			       	    android:layout_width="wrap_content"
 			       	    android:layout_height="wrap_content"
 			       	    style="@style/SOSImageBtnStyle"		       	    
 			       	    android:contentDescription="@string/sos_hot_call_number_tooltip"
-			       	    android:src="@drawable/contacts"/>
+			       	    android:src="@drawable/contacts"
+			       	    android:onClick="onIconClick"/>
 				</TableRow>
 			</TableLayout>
 	    </TableRow>

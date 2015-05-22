@@ -27,6 +27,8 @@
     <string name="sos_sms_text_default">Нужна помощь!</string>
     <string name="sos_btn_start">Запустить</string>
     <string name="sos_btn_stop">Остановить</string>
+    <string name="sos_start_one_minute">Сервис будет активирован через одну минуту</string>
+    
     
     
     

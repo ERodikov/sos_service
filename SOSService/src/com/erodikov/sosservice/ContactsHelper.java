@@ -8,22 +8,23 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.util.SparseArray;
 
 public class ContactsHelper {	
 	
 	private ContentResolver contentResolver;
-	private HashMap<Integer, String> phoneTypes;
+	private SparseArray<String> phoneTypes;
 	
 	public ContactsHelper(Context context){		
 		contentResolver = context.getContentResolver();
-		phoneTypes = new HashMap<Integer, String>();
+		phoneTypes = new SparseArray<String>();
 		phoneTypes.put(ContactsContract.CommonDataKinds.Phone.TYPE_HOME, context.getResources().getString(R.string.home));
 		phoneTypes.put(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE, context.getResources().getString(R.string.mobile));
 		phoneTypes.put(ContactsContract.CommonDataKinds.Phone.TYPE_WORK, context.getResources().getString(R.string.work));		
 	}
 	
-	public List<String> getContactList(){		
-		List<String> phoneList = new ArrayList<String>();
+	public HashMap<String,String> getContactList(){		
+		HashMap<String,String> phoneList = new HashMap<String, String>();
 		Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 		
 		if(cursor!=null && cursor.getCount()>0){
@@ -36,10 +37,10 @@ public class ContactsHelper {
 				
 				int hasPhoneNumber = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 				if(hasPhoneNumber>0){
-					List<String> phones = getPhoneListByContactId(contactId);
-					if(phones!=null){
-						for (String phone : phones) {
-							phoneList.add(contactName+": "+phone);
+					List<PhoneView> phoneViewList = getPhoneListByContactId(contactId);
+					if(phoneViewList!=null){
+						for (PhoneView viewItem : phoneViewList) {							
+							phoneList.put(viewItem.getNumber(), contactName+"\n"+viewItem.getFullView());
 						}
 					}
 				}				
@@ -48,28 +49,51 @@ public class ContactsHelper {
 		return phoneList;
 	}
 	
-	private List<String> getPhoneListByContactId(String contactId){
-		List<String> phoneList = null;
+	private List<PhoneView> getPhoneListByContactId(String contactId){
+		List<PhoneView> phoneList = null;
 		
 		Cursor phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID+" = ?", new String[]{contactId}, null);
 		if(phoneCursor!=null && phoneCursor.getCount()>0){
-			phoneList = new ArrayList<String>();
-			
-			Integer phoneType = null;
-			StringBuilder phoneBuilde = null;
-			
-			while(phoneCursor.moveToNext()){
-				phoneBuilde = new StringBuilder();
-				
-				phoneType = phoneCursor.getInt(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-				String typeDescription = null;
-				if((typeDescription=phoneTypes.get(phoneType))!=null){
-					phoneBuilde.append(typeDescription).append(" ");
-				}
-				phoneBuilde.append(phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-				phoneList.add(phoneBuilde.toString());
+			phoneList = new ArrayList<PhoneView>();
+			PhoneView pView = null;
+			while(phoneCursor.moveToNext()){				
+				pView = new PhoneView();
+				pView.setType(phoneTypes.get(phoneCursor.getInt(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE))));
+				pView.setNumber(phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+				phoneList.add(pView);
 			}
 		}		
 		return phoneList;		
-	}	
+	}
+	
+
+	
+	class PhoneView{		
+		String type;
+		String number;		
+		
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		}
+		public String getNumber() {
+			return number;
+		}
+		public void setNumber(String number) {
+			this.number = number;
+		}
+		
+		public String getFullView(){
+			StringBuilder fullView = new StringBuilder();
+			if(type!=null){
+				fullView.append(type).append(" ");
+			}
+			fullView.append(number);
+			
+			return fullView.toString();
+		}
+	}
+	
 }
