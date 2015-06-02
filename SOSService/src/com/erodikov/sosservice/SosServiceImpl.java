@@ -30,7 +30,8 @@ public class SosServiceImpl extends Service implements SensorEventListener{
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-        try{
+        Log.d(LOG_TAG, "onStartCommand BEGIN -->");
+		try{
 			PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
 	        wl= pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SOSServiceImplLock");        
 	        wl.acquire();        
@@ -54,13 +55,16 @@ public class SosServiceImpl extends Service implements SensorEventListener{
 	        	stopSelf();
 			}
         }catch(Exception e){
-        	wl.release();
+        	Log.d(LOG_TAG, "onStartCommand ERROR: "+e.getMessage());
+        	wl.release();        	
         	stopSelf();
         }
+		Log.d(LOG_TAG, "onStartCommand END <--");
         return START_STICKY;
 	}
 	
 	private void check(final Context context, int x, int y, int z){	
+		Log.d(LOG_TAG, "check, BEGIN -->");
 		Boolean isReleaseLock = true;
 		try{		
 			int lastX = sosSettings.getLastX();
@@ -76,6 +80,7 @@ public class SosServiceImpl extends Service implements SensorEventListener{
 				Log.d(LOG_TAG, "check, save values: "+sosSettings.toString());
 				dbHelper.setSettings(sosSettings);
 				dbHelper.closeDB();
+				Log.d(LOG_TAG, "check, STORE SETTINGS -->");
 			}else{				
 				Log.d(LOG_TAG, "check, Last values: x:"+lastX+", y:"+lastY+", z:"+lastZ);
 				Log.d(LOG_TAG, "check, Last values: x:"+x+", y:"+y+", z:"+z);
@@ -97,34 +102,39 @@ public class SosServiceImpl extends Service implements SensorEventListener{
 					hotCallIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(hotCallIntent);
 					
-					//Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-					//Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-					//r.play();
-					
 					isReleaseLock = false;
-				}catch(Exception e){}						
+				}catch(Exception e){
+					Log.d(LOG_TAG, "check, ERROR1: "+e.getMessage());
+				}						
 			}
-		}catch(Exception e){			
+		}catch(Exception e){		
+			Log.d(LOG_TAG, "check, ERROR2: "+e.getMessage());
 		}finally{
 			if(isReleaseLock){
 				wl.release();		
 				stopSelf();
 			}
 		}		
-		//Log.d(LOG_TAG, "check, END");
+		Log.d(LOG_TAG, "check, END <--");
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if(!sensorChecked){
-			sensorChecked = true;
-			sensorManager.unregisterListener(this);
-			float x = 100*event.values[0];
-			float y = 100*event.values[1];
-			float z = 100*event.values[2];			
-			Math.round(x);
-			check(getApplicationContext(),(int)x,(int)y,(int)z);
+		Log.d(LOG_TAG, "onSensorChanged, BEGIN -->:");
+		try{
+			if(!sensorChecked){
+				sensorChecked = true;
+				sensorManager.unregisterListener(this);
+				float x = 100*event.values[0];
+				float y = 100*event.values[1];
+				float z = 100*event.values[2];			
+				Math.round(x);
+				check(getApplicationContext(),(int)x,(int)y,(int)z);
+			}
+		}catch(Exception e){
+			Log.d(LOG_TAG, "onSensorChanged, ERROR: "+e.getMessage());
 		}
+		Log.d(LOG_TAG, "onSensorChanged, EDN <--:");
 	}
 	
 	@Override

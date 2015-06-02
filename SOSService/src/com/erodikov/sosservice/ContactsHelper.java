@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.erodikov.sosservice.bo.PhoneView;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -23,8 +25,8 @@ public class ContactsHelper {
 		phoneTypes.put(ContactsContract.CommonDataKinds.Phone.TYPE_WORK, context.getResources().getString(R.string.work));		
 	}
 	
-	public HashMap<String,String> getContactList(){		
-		HashMap<String,String> phoneList = new HashMap<String, String>();
+	public HashMap<String,PhoneView> getContactList(){		
+		HashMap<String,PhoneView> phoneList = new HashMap<String, PhoneView>();
 		Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 		
 		if(cursor!=null && cursor.getCount()>0){
@@ -37,10 +39,10 @@ public class ContactsHelper {
 				
 				int hasPhoneNumber = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 				if(hasPhoneNumber>0){
-					List<PhoneView> phoneViewList = getPhoneListByContactId(contactId);
+					List<PhoneView> phoneViewList = getPhoneListByContactId(contactId,contactName);
 					if(phoneViewList!=null){
 						for (PhoneView viewItem : phoneViewList) {							
-							phoneList.put(viewItem.getNumber(), contactName+"\n"+viewItem.getFullView());
+							phoneList.put(viewItem.getNumber(), viewItem);
 						}
 					}
 				}				
@@ -49,7 +51,7 @@ public class ContactsHelper {
 		return phoneList;
 	}
 	
-	private List<PhoneView> getPhoneListByContactId(String contactId){
+	private List<PhoneView> getPhoneListByContactId(String contactId, String contactName){
 		List<PhoneView> phoneList = null;
 		
 		Cursor phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID+" = ?", new String[]{contactId}, null);
@@ -60,6 +62,7 @@ public class ContactsHelper {
 				pView = new PhoneView();
 				pView.setType(phoneTypes.get(phoneCursor.getInt(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE))));
 				pView.setNumber(phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+				pView.setName(contactName);
 				phoneList.add(pView);
 			}
 		}		
@@ -68,32 +71,5 @@ public class ContactsHelper {
 	
 
 	
-	class PhoneView{		
-		String type;
-		String number;		
-		
-		public String getType() {
-			return type;
-		}
-		public void setType(String type) {
-			this.type = type;
-		}
-		public String getNumber() {
-			return number;
-		}
-		public void setNumber(String number) {
-			this.number = number;
-		}
-		
-		public String getFullView(){
-			StringBuilder fullView = new StringBuilder();
-			if(type!=null){
-				fullView.append(type).append(" ");
-			}
-			fullView.append(number);
-			
-			return fullView.toString();
-		}
-	}
 	
 }

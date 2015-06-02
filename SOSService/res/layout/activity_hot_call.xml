@@ -26,18 +26,30 @@
 			  android:layout_height="fill_parent"
 			  android:onClick="onHotCallTwoClick"/>
     </LinearLayout>
-  	<LinearLayout	
-        android:id="@+id/ll3"
+  	<LinearLayout        
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="3" 
-        android:orientation="vertical">
-		<Button
-			  android:id="@+id/btn_hot_call_cancel"
-			  style="@style/CustomStyleButton"
-			  android:layout_width="fill_parent"
-			  android:layout_height="fill_parent"
-			  android:text="@string/btnHotCallCancel"
-			  android:onClick="onHotCallCancelClick"/>
+        android:orientation="vertical">		
+  	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"	         
+	        android:orientation="horizontal">  	    
+			<Button
+				  android:id="@+id/btn_hot_call_cancel"
+				  style="@style/CustomStyleButton"
+				  android:layout_width="fill_parent"
+				  android:layout_height="fill_parent"
+				  android:layout_weight="1" 
+				  android:text="@string/btnHotCallCancel"
+				  android:onClick="onHotCallCancelClick"/>
+			<Button				  
+				  style="@style/CustomStyleButton"
+				  android:layout_width="fill_parent"
+				  android:layout_height="fill_parent"
+				  android:layout_weight="1"				  
+				  android:text="@string/btnHotCallRelease"
+				  android:onClick="onHotCallReleaseClick"/>
+		</LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -15,13 +15,9 @@ public class SosServiceAlarm extends BroadcastReceiver{
 	
 	private final String LOG_TAG = "SosServiceAlarm";
 	
-	private String startTime;
-	private String stopTime;
-	private Integer checkPeriod=0;
-	
-	
+	static int count = 0;
 	public SosServiceAlarm(){
-		checkPeriod ++;
+		count++;
 	}
 	
 	@Override
@@ -29,52 +25,116 @@ public class SosServiceAlarm extends BroadcastReceiver{
 		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ww");
         wl.acquire();
-        Log.d(LOG_TAG, "onReceive before --> "+stopTime);
+        String startTime = intent.getStringExtra("startTime");
+        String stopTime = intent.getStringExtra("stopTime");
+        
+        Log.d(LOG_TAG, "onReceive before --> "+count+" | "+startTime+" - "+stopTime);
         Intent sosServiceIntent = new Intent(context, SosServiceImpl.class);
         context.startService(sosServiceIntent);
         Log.d(LOG_TAG, "onReceive after <-- ");
-        setNextAlarm(context);
+        setNextAlarm(context,startTime,stopTime);
         wl.release();		
 	}
 	
-	private void setNextAlarm(Context context){
+	private void setNextAlarm(Context context, String startTime, String stopTime){
 		try{			
 			Log.d(LOG_TAG, "setNextAlarm begin <-- ");
+			
+			Calendar currenTime = Calendar.getInstance();			
+			Calendar sTime = formatDateTime(startTime);
+			Calendar fTime = formatDateTime(stopTime);
+			
+			Long deltaTime = Long.valueOf(3000);
+			if(sTime.compareTo(fTime)<0){
+				if(currenTime.compareTo(fTime)>0){				
+					sTime.set(Calendar.DAY_OF_MONTH, sTime.get(Calendar.DAY_OF_MONTH)+1);
+					deltaTime = sTime.getTimeInMillis()-currenTime.getTimeInMillis();
+					Log.d(LOG_TAG, "setNextAlarm reset to next day <-- "+deltaTime);
+				}	
+			}else{
+				if(currenTime.compareTo(sTime)<0){
+					deltaTime = sTime.getTimeInMillis()-currenTime.getTimeInMillis();
+				}
+			}				
+			
 			AlarmManager am =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			Intent i = new Intent(context, SosServiceAlarm.class);
+			i.putExtra("startTime", startTime);
+	        i.putExtra("stopTime", stopTime);
 	        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
-	        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+30000, pi);
+	        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+deltaTime, pi);
+			
 	        Log.d(LOG_TAG, "setNextAlarm end <-- ");
         }catch(Exception e){
         	Log.d(LOG_TAG, "setNextAlarm exception: "+e.getMessage());
         }
 	}
 	
-	public void SetAlarm(Context context)
-    {        
-        Calendar currentTime = Calendar.getInstance();
-        Calendar sTime = formatDateTime(startTime);
-        
-        Long deltaTime = Long.valueOf(10000);
-    	if(currentTime.compareTo(sTime)<0){
-    		deltaTime = sTime.getTimeInMillis()-currentTime.getTimeInMillis();
-    	}else{
-    		Toast.makeText(context, context.getString(R.string.sos_start_one_minute), Toast.LENGTH_SHORT).show();    		
-    	}
-
-		AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, SosServiceAlarm.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
-        //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+deltaTime, 1000 * 30 * 1, pi); // Millisec * Second * Minute
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+deltaTime, pi);
-    }
-
-    public void CancelAlarm(Context context)
+	public Boolean SetAlarm(Context context, String startTime, String stopTime)
     {
-        Intent intent = new Intent(context, SosServiceAlarm.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
+		try{			
+			if(!checkDate(startTime)){
+				return false;
+			}
+			
+			if(!checkDate(stopTime)){
+				return false;
+			}
+			
+			
+			
+			
+	        Calendar currentTime = Calendar.getInstance();
+	        
+	        Calendar sTime = formatDateTime(startTime);
+	        Calendar fTime = formatDateTime(stopTime);
+	        
+	        if(sTime.compareTo(fTime)>0){
+	        	fTime.set(Calendar.DAY_OF_MONTH, fTime.get(Calendar.DAY_OF_MONTH)+1);
+	        }
+	        
+	        Long deltaTime = Long.valueOf(10000);
+	    	if(currentTime.compareTo(sTime)<0){
+	    		deltaTime = sTime.getTimeInMillis()-currentTime.getTimeInMillis();
+	    	}else{	    		
+	    		if(currentTime.compareTo(fTime)<0){
+	    			Toast.makeText(context, context.getString(R.string.sos_start_one_minute), Toast.LENGTH_SHORT).show();	    			
+	    		}else{
+	    			sTime.set(Calendar.DAY_OF_MONTH, sTime.get(Calendar.DAY_OF_MONTH)+1);
+	    			deltaTime = sTime.getTimeInMillis()-currentTime.getTimeInMillis();
+	    		}	    		    		
+	    	}	
+			AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+	        Intent i = new Intent(context, SosServiceAlarm.class);
+	        i.putExtra("startTime", startTime);
+	        i.putExtra("stopTime", stopTime);
+	        
+	        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+	        //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+deltaTime, 1000 * 30 * 1, pi); // Millisec * Second * Minute
+	        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+deltaTime, pi);
+	        
+	        return true;
+        }catch( Exception e){
+        	return false;
+        }
+    }
+	
+	private Boolean checkDate(String date){
+		//TODO check date format before start
+		return true;
+	}
+
+    public Boolean CancelAlarm(Context context)
+    {
+        try{
+	    	Intent intent = new Intent(context, SosServiceAlarm.class);
+	        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
+	        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+	        alarmManager.cancel(sender);
+	        return true;
+        }catch(Exception e){
+        	return false;
+        }
     }
     
     private Calendar formatDateTime(String timeValue){    	
@@ -86,28 +146,6 @@ public class SosServiceAlarm extends BroadcastReceiver{
     	return time;
     }
 
-	public String getStartTime() {
-		return startTime;
-	}
 
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
-	public String getStopTime() {
-		return stopTime;
-	}
-
-	public void setStopTime(String stopTime) {
-		this.stopTime = stopTime;
-	}
-
-	public Integer getCheckPeriod() {
-		return checkPeriod;
-	}
-
-	public void setCheckPeriod(Integer checkPeriod) {
-		this.checkPeriod = checkPeriod;
-	}
 
 }

@@ -11,14 +11,21 @@
     
     <!-- Main activity -->
     <string name="sos_state">Состояние сервиса:</string>
+    <string name="sos_state_on">Работает</string>
+    <string name="sos_state_off">Отключен</string>
     <string name="sos_start_time">Время активации:</string>
     <string name="sos_start_time_tooltip">Выбрать время активации</string>
-    <string name="sos_start_time_default">23.30</string>
+    <string name="sos_start_time_default">11.00</string>
     <string name="sos_stop_time">Время остановки:</string>
     <string name="sos_stop_time_tooltip">Выбрать время остановки</string>
-    <string name="sos_stop_time_default">06.30</string>
+    <string name="sos_stop_time_default">16.35</string>
     <string name="sos_hot_call_number_1">Тел. номер 1:</string>
     <string name="sos_hot_call_number_2">Тел. номер 2:</string>
+    
+    <string name="sos_hot_call_name_1">Имя 1:</string>
+    <string name="sos_hot_call_name_2">Имя 2:</string>
+    <string name="sos_hot_call_default_1">"Экстренный №1"</string>
+    <string name="sos_hot_call_default_2">"Экстренный №2"</string>
     <string name="sos_hot_call_number_tooltip">Выбрать номер телефона</string>
     <string name="sos_hot_call_number_extantion">+375291234567</string>
     <string name="sos_send_sms">Отправлять сообщение</string>
@@ -33,7 +40,8 @@
     
     
     <!-- Hot Call actitivy -->
-    <string name="btnHotCallCancel">Отмена</string>
+    <string name="btnHotCallCancel">Завершить</string>
+    <string name="btnHotCallRelease">Свернуть</string>
 	
     <!-- Phone types -->
     <string name="home">д.</string>

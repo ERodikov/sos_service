@@ -11,12 +11,15 @@ public class SosSettings {
 	private Integer lastZ;
 	private String smsNumber;
 	private String smsText;
+	private String sendSMS;
 	private String hotNumber1;
 	private String hotNumber2;
+	private String hotName1;
+	private String hotName2;
 	
 	public SosSettings(){}
 	
-	public SosSettings(String id, String createdAt, String state, String tBegin, String tEnd, Integer lastX, Integer lastY, Integer lastZ, String smsNumber, String smsText, String hotNumber1, String hotNumber2){
+	public SosSettings(String id, String createdAt, String state, String tBegin, String tEnd, Integer lastX, Integer lastY, Integer lastZ, String smsNumber, String smsText, String hotNumber1, String hotNumber2, String hotName1, String hotName2, String sendSMS){
 		this.id = id;
 		this.createdAt = createdAt;
 		this.state = state;
@@ -29,6 +32,9 @@ public class SosSettings {
 		this.smsText = smsText;
 		this.hotNumber1 = hotNumber1;
 		this.hotNumber2 = hotNumber2;
+		this.hotName1 = hotName1;
+		this.hotName2 = hotName2;
+		this.sendSMS = sendSMS;
 	}
 	
 	@Override
@@ -45,8 +51,11 @@ public class SosSettings {
 		result.append("lastZ").append(lastZ).append(" ");
 		result.append("smsNumber").append(smsNumber).append(" ");
 		result.append("smsText").append(smsText).append(" ");
+		result.append("sendSMS").append(sendSMS).append(" ");
 		result.append("hotNumber1").append(hotNumber1).append(" ");
-		result.append("hotNumber2").append(hotNumber2);
+		result.append("hotNumber2").append(hotNumber2).append(" ");
+		result.append("hotName1").append(hotName1).append(" ");
+		result.append("hotName2").append(hotName2);
 		
 		
 		return result.toString();
@@ -131,5 +140,29 @@ public class SosSettings {
 	}
 	public void setHotNumber2(String hotNumber2) {
 		this.hotNumber2 = hotNumber2;
+	}
+
+	public String getHotName1() {
+		return hotName1;
+	}
+
+	public void setHotName1(String hotName1) {
+		this.hotName1 = hotName1;
+	}
+
+	public String getHotName2() {
+		return hotName2;
+	}
+
+	public void setHotName2(String hotName2) {
+		this.hotName2 = hotName2;
+	}
+
+	public String getSendSMS() {
+		return sendSMS;
+	}
+
+	public void setSendSMS(String sendSMS) {
+		this.sendSMS = sendSMS;
 	}
 }

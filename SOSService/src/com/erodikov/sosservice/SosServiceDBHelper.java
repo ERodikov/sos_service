@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SosServiceDBHelper extends SQLiteOpenHelper{
 	
 	public static final String DATABASE_NAME = "SOSSERVICESETTINFS";
-	public static final int DATABASE_NAME_VERSION = 2;
+	public static final int DATABASE_NAME_VERSION = 4;
 	
 	//Tables name
 	public static final String TABLE_SOS_SETTINGS = "SOSSETTINGS";
@@ -26,8 +26,13 @@ public class SosServiceDBHelper extends SQLiteOpenHelper{
 	private static final String LAST_Z = "last_z";
 	private static final String SMS_PHONE_NUMBER = "sms_phone_number";
 	private static final String SMS_TEXT = "sms_text";
+	private static final String SEND_SMS = "send_sms";
 	private static final String HOT_CALL_PHONE_NUMBER1 = "hot_call_phone_number1";
-	private static final String HOT_CALL_PHONE_NUMBER2 = "hot_call_phone_number2";
+	private static final String HOT_CALL_PHONE_NUMBER2 = "hot_call_phone_number2";	
+	private static final String HOT_CALL_PHONE_NAME1 = "hot_call_phone_name1";
+	private static final String HOT_CALL_PHONE_NAME2 = "hot_call_phone_name2";
+	
+	
 	
 	private static final String CREATE_TABLE_SOS_SETTINGS = "CREATE TABLE "
             + TABLE_SOS_SETTINGS + "("
@@ -39,9 +44,12 @@ public class SosServiceDBHelper extends SQLiteOpenHelper{
 			+ LAST_Y + " INTEGER,"
 			+ LAST_Z + " INTEGER,"
 			+ SMS_TEXT + " TEXT,"
-			+ SMS_PHONE_NUMBER +" TEXT,"			
+			+ SMS_PHONE_NUMBER +" TEXT,"
+			+ SEND_SMS +" TEXT,"
 			+ HOT_CALL_PHONE_NUMBER1 +" TEXT,"
 			+ HOT_CALL_PHONE_NUMBER2 +" TEXT,"
+			+ HOT_CALL_PHONE_NAME1 +" TEXT,"
+			+ HOT_CALL_PHONE_NAME2 +" TEXT,"
             + CREATED_AT + " DEFAULT (datetime('now','localtime'))" + ")";	
 	
 	public SosServiceDBHelper(Context context){
@@ -82,6 +90,9 @@ public class SosServiceDBHelper extends SQLiteOpenHelper{
 			values.put(SMS_TEXT,settings.getSmsText());
 			values.put(HOT_CALL_PHONE_NUMBER1,settings.getHotNumber1());
 			values.put(HOT_CALL_PHONE_NUMBER2,settings.getHotNumber2());
+			values.put(HOT_CALL_PHONE_NAME1, settings.getHotName1());
+			values.put(HOT_CALL_PHONE_NAME2, settings.getHotName2());
+			values.put(SEND_SMS, settings.getSendSMS());
 			
 			if(settings.getId()==null){
 				resultCode = db.insert(TABLE_SOS_SETTINGS, null, values);
@@ -114,7 +125,10 @@ public class SosServiceDBHelper extends SQLiteOpenHelper{
 					dbCursor.getString(dbCursor.getColumnIndex(SMS_PHONE_NUMBER)),
 					dbCursor.getString(dbCursor.getColumnIndex(SMS_TEXT)),
 					dbCursor.getString(dbCursor.getColumnIndex(HOT_CALL_PHONE_NUMBER1)),
-					dbCursor.getString(dbCursor.getColumnIndex(HOT_CALL_PHONE_NUMBER2)));
+					dbCursor.getString(dbCursor.getColumnIndex(HOT_CALL_PHONE_NUMBER2)),
+					dbCursor.getString(dbCursor.getColumnIndex(HOT_CALL_PHONE_NAME1)),
+					dbCursor.getString(dbCursor.getColumnIndex(HOT_CALL_PHONE_NAME2)),
+					dbCursor.getString(dbCursor.getColumnIndex(SEND_SMS)));
 			}			
 		}catch(Exception e){}		
 		return settings;
